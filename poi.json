@@ -1,0 +1,193 @@
+{
+  "exportedAt": "2026-09-18T10:42:25.649Z",
+  "totalPoints": 17,
+  "points": [
+    {
+      "id": "poi_1789728125492_w9f4",
+      "name": "TREPPE",
+      "floor": 3,
+      "latitude": 47.406554,
+      "longitude": 9.744607,
+      "accuracy": 21,
+      "altitude": 502.8,
+      "altitudeAccuracy": null,
+      "timestamp": "2026-09-18T10:42:05.492Z"
+    },
+    {
+      "id": "poi_1789728077888_4p2d",
+      "name": "TREPPE",
+      "floor": 3,
+      "latitude": 47.406639,
+      "longitude": 9.744588,
+      "accuracy": 19,
+      "altitude": 502.8,
+      "altitudeAccuracy": null,
+      "timestamp": "2026-09-18T10:41:17.888Z"
+    },
+    {
+      "id": "poi_1789727867474_qidk",
+      "name": "U310",
+      "floor": 3,
+      "latitude": 47.406187,
+      "longitude": 9.74473,
+      "accuracy": 19,
+      "altitude": 502.8,
+      "altitudeAccuracy": null,
+      "timestamp": "2026-09-18T10:37:47.474Z"
+    },
+    {
+      "id": "poi_1789727852682_dx18",
+      "name": "U311",
+      "floor": 3,
+      "latitude": 47.405814,
+      "longitude": 9.744498,
+      "accuracy": 27,
+      "altitude": 495.2,
+      "altitudeAccuracy": null,
+      "timestamp": "2026-09-18T10:37:32.682Z"
+    },
+    {
+      "id": "poi_1789727831933_oa44",
+      "name": "U312",
+      "floor": 3,
+      "latitude": 47.406682,
+      "longitude": 9.744543,
+      "accuracy": 11,
+      "altitude": 499.5,
+      "altitudeAccuracy": null,
+      "timestamp": "2026-09-18T10:37:11.933Z"
+    },
+    {
+      "id": "poi_1789727814180_5sl6",
+      "name": "U313",
+      "floor": 3,
+      "latitude": 47.406287,
+      "longitude": 9.744623,
+      "accuracy": 12,
+      "altitude": 502.8,
+      "altitudeAccuracy": null,
+      "timestamp": "2026-09-18T10:36:54.180Z"
+    },
+    {
+      "id": "poi_1789727784354_x4wr",
+      "name": "U307",
+      "floor": 3,
+      "latitude": 47.406669,
+      "longitude": 9.744559,
+      "accuracy": 11,
+      "altitude": 502.6,
+      "altitudeAccuracy": null,
+      "timestamp": "2026-09-18T10:36:24.354Z"
+    },
+    {
+      "id": "poi_1789727765172_0421",
+      "name": "U306",
+      "floor": 3,
+      "latitude": 47.406407,
+      "longitude": 9.744708,
+      "accuracy": 25,
+      "altitude": 503.2,
+      "altitudeAccuracy": null,
+      "timestamp": "2026-09-18T10:36:05.172Z"
+    },
+    {
+      "id": "poi_1789727747152_m60u",
+      "name": "U305",
+      "floor": 3,
+      "latitude": 47.406448,
+      "longitude": 9.744618,
+      "accuracy": 13,
+      "altitude": 507.9,
+      "altitudeAccuracy": null,
+      "timestamp": "2026-09-18T10:35:47.152Z"
+    },
+    {
+      "id": "poi_1789727728933_m6d6",
+      "name": "U304",
+      "floor": 3,
+      "latitude": 47.406516,
+      "longitude": 9.744787,
+      "accuracy": 20,
+      "altitude": 502.8,
+      "altitudeAccuracy": null,
+      "timestamp": "2026-09-18T10:35:28.933Z"
+    },
+    {
+      "id": "poi_1789727700536_1hzc",
+      "name": "WC",
+      "floor": 3,
+      "latitude": 47.406539,
+      "longitude": 9.74463,
+      "accuracy": 14,
+      "altitude": 507.4,
+      "altitudeAccuracy": null,
+      "timestamp": "2026-09-18T10:35:00.536Z"
+    },
+    {
+      "id": "poi_1789727644450_tbg0",
+      "name": "U330",
+      "floor": 3,
+      "latitude": 47.406702,
+      "longitude": 9.744619,
+      "accuracy": 14,
+      "altitude": 508.3,
+      "altitudeAccuracy": null,
+      "timestamp": "2026-09-18T10:34:04.450Z"
+    },
+    {
+      "id": "poi_1789727623046_db7l",
+      "name": "U325",
+      "floor": 3,
+      "latitude": 47.406645,
+      "longitude": 9.74473,
+      "accuracy": 14,
+      "altitude": 506.4,
+      "altitudeAccuracy": null,
+      "timestamp": "2026-09-18T10:33:43.046Z"
+    },
+    {
+      "id": "poi_1789727608815_930j",
+      "name": "U329",
+      "floor": 3,
+      "latitude": 47.406709,
+      "longitude": 9.744575,
+      "accuracy": 13,
+      "altitude": 507.5,
+      "altitudeAccuracy": null,
+      "timestamp": "2026-09-18T10:33:28.815Z"
+    },
+    {
+      "id": "poi_1789727582834_d6pn",
+      "name": "U326",
+      "floor": 3,
+      "latitude": 47.40656,
+      "longitude": 9.744722,
+      "accuracy": 17,
+      "altitude": 509.4,
+      "altitudeAccuracy": null,
+      "timestamp": "2026-09-18T10:33:02.834Z"
+    },
+    {
+      "id": "poi_1789727543510_re4q",
+      "name": "U328",
+      "floor": 3,
+      "latitude": 47.406637,
+      "longitude": 9.744692,
+      "accuracy": 17,
+      "altitude": 508.2,
+      "altitudeAccuracy": null,
+      "timestamp": "2026-09-18T10:32:23.510Z"
+    },
+    {
+      "id": "poi_1789727525588_1jb9",
+      "name": "U327",
+      "floor": 3,
+      "latitude": 47.406494,
+      "longitude": 9.744798,
+      "accuracy": 15,
+      "altitude": 507.1,
+      "altitudeAccuracy": null,
+      "timestamp": "2026-09-18T10:32:05.588Z"
+    }
+  ]
+}
