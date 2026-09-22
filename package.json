@@ -1,5 +1,15 @@
 {
+  "scripts": {
+    "build": "tsc",
+    "read-metadata": "tsx src/index.ts"
+  },
   "devDependencies": {
+    "@types/node": "^26.6.2",
+    "tsx": "^4.23.15",
     "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "exifr": "^7.1.3",
+    "image-size": "^2.0.4"
   }
 }
