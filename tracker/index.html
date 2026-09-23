@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GPS POI Tracker</title>
+  <style>
+    :root {
+      --bg: #f9fafb;
+      --surface: #ffffff;
+      --border: #d1d5db;
+      --text: #111827;
+      --text-muted: #6b7280;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --danger: #dc2626;
+      --danger-hover: #b91c1c;
+      --radius: 6px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 16px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 0.825rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      padding: 8px 10px;
+      font-size: 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background-color: #fff;
+      color: var(--text);
+      font-family: inherit;
+    }
+
+    input[type="number"] {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    input:focus {
+      outline: 2px solid var(--primary);
+      outline-offset: -1px;
+    }
+
+    .floor-selector {
+      display: flex;
+      gap: 8px;
+    }
+
+    .floor-option {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .floor-option input[type="radio"] {
+      display: none;
+    }
+
+    .floor-option span {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 8px 4px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 0.9rem;
+      background: #fff;
+      user-select: none;
+    }
+
+    .floor-option input[type="radio"]:checked + span {
+      background-color: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .button-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 8px 14px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    button:hover {
+      background-color: #f3f4f6;
+    }
+
+    button.btn-primary {
+      background-color: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    button.btn-primary:hover {
+      background-color: var(--primary-hover);
+    }
+
+    button.btn-danger {
+      color: var(--danger);
+      border-color: #fca5a5;
+      background: #fff;
+    }
+
+    button.btn-danger:hover {
+      background-color: #fee2e2;
+    }
+
+    .status-text {
+      font-size: 0.825rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.85rem;
+    }
+
+    th, td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    th {
+      background-color: #f3f4f6;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .code-cell {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 32px 16px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* Utilitarian modal confirmation */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 50;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      max-width: 400px;
+      width: 100%;
+      padding: 20px;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div>
+        <h1>GPS POI Tracker</h1>
+        <div style="font-size: 0.8rem; color: var(--text-muted);">Stored locally in localStorage</div>
+      </div>
+      <div class="button-row">
+        <button type="button" onclick="exportJson()">Export JSON</button>
+        <button type="button" class="btn-danger" onclick="openClearModal()">Clear All</button>
+      </div>
+    </header>
+
+    <!-- POI Capture Form -->
+    <section class="card">
+      <div class="card-title">Record Point of Interest</div>
+
+      <div class="button-row" style="margin-bottom: 16px;">
+        <button type="button" class="btn-primary" id="btnGps" onclick="captureGps()">Capture GPS Position</button>
+        <span id="gpsStatus" class="status-text" style="margin-top: 6px;">Ready</span>
+      </div>
+
+      <form id="poiForm" onsubmit="savePoi(event)">
+        <div class="form-grid">
+          <!-- POI Name -->
+          <div class="form-group full-width">
+            <label for="poiName">POI Name *</label>
+            <input type="text" id="poiName" required placeholder="e.g. Server Room, East Entrance, Break Room" />
+          </div>
+
+          <!-- Floor / Level (0 to 4) -->
+          <div class="form-group full-width">
+            <label>Floor / Level *</label>
+            <div class="floor-selector">
+              <label class="floor-option">
+                <input type="radio" name="floorLevel" value="0" checked />
+                <span>0</span>
+              </label>
+              <label class="floor-option">
+                <input type="radio" name="floorLevel" value="1" />
+                <span>1</span>
+              </label>
+              <label class="floor-option">
+                <input type="radio" name="floorLevel" value="2" />
+                <span>2</span>
+              </label>
+              <label class="floor-option">
+                <input type="radio" name="floorLevel" value="3" />
+                <span>3</span>
+              </label>
+              <label class="floor-option">
+                <input type="radio" name="floorLevel" value="4" />
+                <span>4</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Latitude & Longitude -->
+          <div class="form-group">
+            <label for="inputLat">Latitude *</label>
+            <input type="number" step="any" id="inputLat" required placeholder="47.412400" />
+          </div>
+
+          <div class="form-group">
+            <label for="inputLng">Longitude *</label>
+            <input type="number" step="any" id="inputLng" required placeholder="9.743200" />
+          </div>
+
+          <!-- Accuracy -->
+          <div class="form-group">
+            <label for="inputAcc">Accuracy (m)</label>
+            <input type="number" step="any" id="inputAcc" placeholder="e.g. 5" />
+          </div>
+
+          <!-- Altitude -->
+          <div class="form-group">
+            <label for="inputAlt">Altitude (m)</label>
+            <input type="number" step="any" id="inputAlt" placeholder="e.g. 435.2" />
+          </div>
+
+          <!-- Altitude Accuracy -->
+          <div class="form-group">
+            <label for="inputAltAcc">Alt. Accuracy (m)</label>
+            <input type="number" step="any" id="inputAltAcc" placeholder="e.g. 8" />
+          </div>
+        </div>
+
+        <div class="button-row">
+          <button type="submit" class="btn-primary">Save POI</button>
+          <button type="button" onclick="clearForm()">Reset Inputs</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Table of Recorded POIs -->
+    <section class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <div class="card-title" style="margin-bottom: 0;">Captured Points (<span id="poiCount">0</span>)</div>
+      </div>
+
+      <div class="table-container">
+        <table id="poiTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Floor</th>
+              <th>Latitude</th>
+              <th>Longitude</th>
+              <th>Accuracy</th>
+              <th>Altitude</th>
+              <th>Alt. Acc.</th>
+              <th>Time</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="poiTableBody">
+            <!-- Dynamic rows -->
+          </tbody>
+        </table>
+        <div id="emptyMessage" class="empty-state">No points of interest saved yet.</div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Clear All Confirmation Modal -->
+  <div id="confirmModal" class="modal-overlay">
+    <div class="modal-box">
+      <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 8px;">Delete All Points?</h3>
+      <p style="font-size: 0.875rem; color: var(--text-muted);">This will permanently remove all saved POIs from localStorage.</p>
+      <div class="modal-actions">
+        <button type="button" onclick="closeClearModal()">Cancel</button>
+        <button type="button" class="btn-danger" onclick="executeClearAll()">Delete All</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="toast" style="position: fixed; bottom: 16px; right: 16px; background: #1f2937; color: #f9fafb; padding: 10px 16px; border-radius: var(--radius); font-size: 0.85rem; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 60;"></div>
+
+  <script>
+    const STORAGE_KEY = "poi_tracker_data_v2";
+    let pois = [];
+
+    // Load initial data on startup
+    window.addEventListener("DOMContentLoaded", () => {
+      loadPois();
+      renderTable();
+    });
+
+    function loadPois() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        pois = raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        pois = [];
+      }
+    }
+
+    function persistPois() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(pois));
+      } catch (e) {
+        showToast("Error writing to localStorage");
+      }
+    }
+
+    function captureGps() {
+      const status = document.getElementById("gpsStatus");
+      const btn = document.getElementById("btnGps");
+
+      if (!("geolocation" in navigator)) {
+        status.textContent = "Geolocation not supported by this browser.";
+        return;
+      }
+
+      status.textContent = "Acquiring GPS fix...";
+      btn.disabled = true;
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          btn.disabled = false;
+          const { latitude, longitude, accuracy, altitude, altitudeAccuracy } = position.coords;
+
+          document.getElementById("inputLat").value = latitude.toFixed(6);
+          document.getElementById("inputLng").value = longitude.toFixed(6);
+          document.getElementById("inputAcc").value = accuracy != null ? Math.round(accuracy) : "";
+
+          // Coords altitude and altitudeAccuracy (null if unavailable)
+          document.getElementById("inputAlt").value = altitude != null ? altitude.toFixed(1) : "";
+          document.getElementById("inputAltAcc").value = altitudeAccuracy != null ? altitudeAccuracy.toFixed(1) : "";
+
+          let statusMsg = `GPS Captured (±${Math.round(accuracy)}m)`;
+          if (altitude == null) {
+            statusMsg += " — Altitude unavailable indoors/on this sensor";
+          }
+          status.textContent = statusMsg;
+          showToast("Position captured from GPS");
+        },
+        (error) => {
+          btn.disabled = false;
+          let msg = "GPS error.";
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              msg = "Permission denied. You can enter coordinates manually.";
+              break;
+            case error.POSITION_UNAVAILABLE:
+              msg = "GPS signal unavailable.";
+              break;
+            case error.TIMEOUT:
+              msg = "GPS request timed out.";
+              break;
+          }
+          status.textContent = msg;
+          showToast(msg);
+        },
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+      );
+    }
+
+    function savePoi(event) {
+      event.preventDefault();
+
+      const name = document.getElementById("poiName").value.trim();
+      const floorInput = document.querySelector('input[name="floorLevel"]:checked');
+      const floor = floorInput ? parseInt(floorInput.value, 10) : 0;
+
+      const lat = parseFloat(document.getElementById("inputLat").value);
+      const lng = parseFloat(document.getElementById("inputLng").value);
+      const acc = document.getElementById("inputAcc").value !== "" ? parseFloat(document.getElementById("inputAcc").value) : null;
+      const alt = document.getElementById("inputAlt").value !== "" ? parseFloat(document.getElementById("inputAlt").value) : null;
+      const altAcc = document.getElementById("inputAltAcc").value !== "" ? parseFloat(document.getElementById("inputAltAcc").value) : null;
+
+      if (!name) {
+        showToast("Please enter a POI name");
+        return;
+      }
+
+      if (isNaN(lat) || isNaN(lng)) {
+        showToast("Valid Latitude and Longitude are required");
+        return;
+      }
+
+      const item = {
+        id: "poi_" + Date.now() + "_" + Math.random().toString(36).substring(2, 6),
+        name: name,
+        floor: Math.max(0, Math.min(4, floor)),
+        latitude: lat,
+        longitude: lng,
+        accuracy: acc,
+        altitude: alt,
+        altitudeAccuracy: altAcc,
+        timestamp: new Date().toISOString()
+      };
+
+      pois.unshift(item);
+      persistPois();
+      renderTable();
+
+      // Clear name for quick next input
+      document.getElementById("poiName").value = "";
+      document.getElementById("poiName").focus();
+      showToast(`Saved: ${item.name} (Floor ${item.floor})`);
+    }
+
+    function clearForm() {
+      document.getElementById("poiForm").reset();
+      document.getElementById("gpsStatus").textContent = "Ready";
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById("poiTableBody");
+      const emptyMsg = document.getElementById("emptyMessage");
+      const countEl = document.getElementById("poiCount");
+
+      countEl.textContent = pois.length;
+
+      if (pois.length === 0) {
+        tbody.innerHTML = "";
+        emptyMsg.style.display = "block";
+        return;
+      }
+
+      emptyMsg.style.display = "none";
+      tbody.innerHTML = pois.map((poi) => {
+        const time = new Date(poi.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const accStr = poi.accuracy != null ? `±${poi.accuracy}m` : "—";
+        const altStr = poi.altitude != null ? `${poi.altitude}m` : "—";
+        const altAccStr = poi.altitudeAccuracy != null ? `±${poi.altitudeAccuracy}m` : "—";
+
+        return `
+          <tr>
+            <td style="font-weight: 500;">${escapeHtml(poi.name)}</td>
+            <td style="font-weight: 600;">${poi.floor}</td>
+            <td class="code-cell">${poi.latitude.toFixed(6)}</td>
+            <td class="code-cell">${poi.longitude.toFixed(6)}</td>
+            <td class="code-cell">${accStr}</td>
+            <td class="code-cell">${altStr}</td>
+            <td class="code-cell">${altAccStr}</td>
+            <td style="color: var(--text-muted); font-size: 0.8rem;">${time}</td>
+            <td>
+              <button type="button" class="btn-danger" style="padding: 3px 8px; font-size: 0.75rem;" onclick="deletePoi('${poi.id}')">Delete</button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function deletePoi(id) {
+      pois = pois.filter(p => p.id !== id);
+      persistPois();
+      renderTable();
+      showToast("POI removed");
+    }
+
+    function exportJson() {
+      if (pois.length === 0) {
+        showToast("No data to export");
+        return;
+      }
+
+      const exportPayload = {
+        exportedAt: new Date().toISOString(),
+        totalPoints: pois.length,
+        points: pois
+      };
+
+      const dataStr = JSON.stringify(exportPayload, null, 2);
+      const blob = new Blob([dataStr], { type: "application/json" });
+      const filename = `poi-export-${new Date().toISOString().slice(0, 10)}.json`;
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      showToast(`Exported ${pois.length} points to JSON`);
+    }
+
+    function openClearModal() {
+      if (pois.length === 0) {
+        showToast("No points to delete");
+        return;
+      }
+      document.getElementById("confirmModal").classList.add("active");
+    }
+
+    function closeClearModal() {
+      document.getElementById("confirmModal").classList.remove("active");
+    }
+
+    function executeClearAll() {
+      pois = [];
+      localStorage.removeItem(STORAGE_KEY);
+      closeClearModal();
+      renderTable();
+      showToast("All points cleared from localStorage");
+    }
+
+    let toastTimer = null;
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      toast.textContent = msg;
+      toast.style.opacity = "1";
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.style.opacity = "0";
+      }, 2500);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return "";
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+  </script>
+</body>
+</html>
