@@ -1,0 +1,206 @@
+{
+  "directory": "public/images",
+  "imageCount": 2,
+  "images": [
+    {
+      "file": "public/images/52A8AB99-AD71-4735-B0BB-137417480918_1_105_c.jpeg",
+      "extension": ".jpeg",
+      "mimeType": "image/jpeg",
+      "sizeBytes": 171722,
+      "modifiedAt": "2026-09-16T13:50:25.280Z",
+      "dimensions": {
+        "width": 768,
+        "height": 1024,
+        "type": "jpg"
+      },
+      "exif": {
+        "Make": "Apple",
+        "Model": "iPhone 15",
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "Software": "26.6.2",
+        "ModifyDate": "2026-09-16T13:07:53.000Z",
+        "HostComputer": "iPhone 15",
+        "YCbCrPositioning": 1,
+        "ExposureTime": 0.03333333333333333,
+        "FNumber": 1.6,
+        "ExposureProgram": 2,
+        "ISO": 500,
+        "ExifVersion": "2.3.2",
+        "DateTimeOriginal": "2026-09-16T13:07:53.000Z",
+        "CreateDate": "2026-09-16T13:07:53.000Z",
+        "OffsetTime": "+02:00",
+        "OffsetTimeOriginal": "+02:00",
+        "OffsetTimeDigitized": "+02:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 4.905563929484239,
+        "ApertureValue": 1.3561438092556088,
+        "BrightnessValue": -0.9391926656999859,
+        "ExposureCompensation": 0,
+        "MeteringMode": 5,
+        "Flash": 16,
+        "FocalLength": 5.96,
+        "SubjectArea": {
+          "0": 2853,
+          "1": 2140,
+          "2": 3142,
+          "3": 1881
+        },
+        "SubSecTimeOriginal": "401",
+        "SubSecTimeDigitized": "401",
+        "FlashpixVersion": "1.0",
+        "ColorSpace": 65535,
+        "ExifImageWidth": 768,
+        "ExifImageHeight": 1024,
+        "SensingMethod": 2,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "FocalLengthIn35mmFormat": 26,
+        "SceneCaptureType": 0,
+        "LensInfo": [
+          1.5399999618512084,
+          5.960000038146973,
+          1.6,
+          2.4
+        ],
+        "LensMake": "Apple",
+        "LensModel": "iPhone 15 back dual wide camera 5.96mm f/1.6",
+        "CompositeImage": 2,
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          47,
+          24,
+          23.42
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          9,
+          44,
+          40.13
+        ],
+        "GPSAltitudeRef": {
+          "0": 0
+        },
+        "GPSAltitude": 449.33837689133424,
+        "GPSTimeStamp": "13:7:49",
+        "GPSSpeedRef": "K",
+        "GPSSpeed": 0,
+        "GPSImgDirectionRef": "T",
+        "GPSImgDirection": 12.021917349841058,
+        "GPSDestBearingRef": "T",
+        "GPSDestBearing": 12.021917349841058,
+        "GPSDateStamp": "2026:09:16",
+        "GPSHPositioningError": 15.580131131214209,
+        "latitude": 47.406505555555555,
+        "longitude": 9.744480555555555
+      }
+    },
+    {
+      "file": "public/images/AE0E0C7F-B55A-4EA9-B4DF-FC1FD1DE87FB_1_105_c.jpeg",
+      "extension": ".jpeg",
+      "mimeType": "image/jpeg",
+      "sizeBytes": 147159,
+      "modifiedAt": "2026-09-22T18:31:36.853Z",
+      "dimensions": {
+        "width": 768,
+        "height": 1024,
+        "type": "jpg"
+      },
+      "exif": {
+        "Make": "Apple",
+        "Model": "iPhone 15",
+        "XResolution": 72,
+        "YResolution": 72,
+        "ResolutionUnit": 2,
+        "Software": "26.6.2",
+        "ModifyDate": "2026-09-16T13:08:23.000Z",
+        "HostComputer": "iPhone 15",
+        "YCbCrPositioning": 1,
+        "ExposureTime": 0.04,
+        "FNumber": 1.6,
+        "ExposureProgram": 2,
+        "ISO": 500,
+        "ExifVersion": "2.3.2",
+        "DateTimeOriginal": "2026-09-16T13:08:23.000Z",
+        "CreateDate": "2026-09-16T13:08:23.000Z",
+        "OffsetTime": "+02:00",
+        "OffsetTimeOriginal": "+02:00",
+        "OffsetTimeDigitized": "+02:00",
+        "ComponentsConfiguration": {
+          "0": 1,
+          "1": 2,
+          "2": 3,
+          "3": 0
+        },
+        "ShutterSpeedValue": 4.643747989850981,
+        "ApertureValue": 1.3561438092556088,
+        "BrightnessValue": -1.7305164682232874,
+        "ExposureCompensation": 0,
+        "MeteringMode": 5,
+        "Flash": 16,
+        "FocalLength": 5.96,
+        "SubjectArea": {
+          "0": 2853,
+          "1": 2140,
+          "2": 3142,
+          "3": 1881
+        },
+        "SubSecTimeOriginal": "108",
+        "SubSecTimeDigitized": "108",
+        "FlashpixVersion": "1.0",
+        "ColorSpace": 65535,
+        "ExifImageWidth": 768,
+        "ExifImageHeight": 1024,
+        "SensingMethod": 2,
+        "SceneType": 1,
+        "ExposureMode": 0,
+        "WhiteBalance": 0,
+        "FocalLengthIn35mmFormat": 26,
+        "SceneCaptureType": 0,
+        "LensInfo": [
+          1.5399999618512084,
+          5.960000038146973,
+          1.6,
+          2.4
+        ],
+        "LensMake": "Apple",
+        "LensModel": "iPhone 15 back dual wide camera 5.96mm f/1.6",
+        "CompositeImage": 2,
+        "GPSLatitudeRef": "N",
+        "GPSLatitude": [
+          47,
+          24,
+          23.91
+        ],
+        "GPSLongitudeRef": "E",
+        "GPSLongitude": [
+          9,
+          44,
+          40.98
+        ],
+        "GPSAltitudeRef": {
+          "0": 0
+        },
+        "GPSAltitude": 449.38088737201366,
+        "GPSTimeStamp": "13:8:16",
+        "GPSSpeedRef": "K",
+        "GPSSpeed": 0,
+        "GPSImgDirectionRef": "T",
+        "GPSImgDirection": 87.03308102046537,
+        "GPSDestBearingRef": "T",
+        "GPSDestBearing": 87.03308102046537,
+        "GPSDateStamp": "2026:09:16",
+        "GPSHPositioningError": 11.959679037111334,
+        "latitude": 47.406641666666665,
+        "longitude": 9.744716666666665
+      }
+    }
+  ]
+}
