@@ -3,14 +3,13 @@ import * as THREE from "three";
 const startCameraButton: HTMLButtonElement | null =
   document.querySelector("#startCamera");
 
-const video: HTMLVideoElement | null =
-  document.querySelector("#camera");
+const video: HTMLVideoElement | null = document.querySelector("#camera");
 
 const threeContainer: HTMLDivElement | null =
   document.querySelector("#threeContainer");
 
-const navigationArrow: HTMLButtonElement | null = document.querySelector("#navigationArrow");
-
+const navigationArrow: HTMLButtonElement | null =
+  document.querySelector("#navigationArrow");
 
 // Three.js objects
 let scene: THREE.Scene;
@@ -27,9 +26,9 @@ async function startCamera(): Promise<void> {
   try {
     const constraints: MediaStreamConstraints = {
       video: {
-        facingMode: "environment"
+        facingMode: "environment",
       },
-      audio: false
+      audio: false,
     };
 
     const stream: MediaStream =
@@ -65,26 +64,23 @@ async function enableSensors(): Promise<void> {
 
   const [orientationPermission, motionPermission] = await Promise.all([
     orientationRequest,
-    motionRequest
+    motionRequest,
   ]);
 
   if (
     orientationAPI &&
-    (orientationPermission === undefined ||
-      orientationPermission === "granted")
+    (orientationPermission === undefined || orientationPermission === "granted")
   ) {
     window.addEventListener("deviceorientation", handleOrientation);
   }
 
   if (
     motionAPI &&
-    (motionPermission === undefined ||
-      motionPermission === "granted")
+    (motionPermission === undefined || motionPermission === "granted")
   ) {
     window.addEventListener("devicemotion", handleMotion);
   }
 }
-
 
 function initThree(): void {
   if (threeContainer === null) {
@@ -100,7 +96,7 @@ function initThree(): void {
     75,
     threeContainer.clientWidth / threeContainer.clientHeight,
     0.1,
-    1000
+    1000,
   );
 
   threeCamera.position.z = 5;
@@ -108,13 +104,10 @@ function initThree(): void {
   // Renderer
   renderer = new THREE.WebGLRenderer({
     alpha: true,
-    antialias: true
+    antialias: true,
   });
 
-  renderer.setSize(
-    threeContainer.clientWidth,
-    threeContainer.clientHeight
-  );
+  renderer.setSize(threeContainer.clientWidth, threeContainer.clientHeight);
 
   threeContainer.appendChild(renderer.domElement);
 
@@ -126,10 +119,7 @@ function animate(): void {
 
   navigationArrow.style.display = "block";
 
-  renderer.render(
-    scene,
-    threeCamera
-  );
+  renderer.render(scene, threeCamera);
 }
 
 function handleOrientation(event: DeviceOrientationEvent): void {
@@ -140,8 +130,8 @@ function handleOrientation(event: DeviceOrientationEvent): void {
   console.log({
     alpha,
     beta,
-    gamma
-  })
+    gamma,
+  });
 }
 
 function handleMotion(event: DeviceMotionEvent): void {
@@ -158,16 +148,13 @@ function handleMotion(event: DeviceMotionEvent): void {
   console.log("Acceleration (m/s²):", {
     x: acceleration.x,
     y: acceleration.y,
-    z: acceleration.z
+    z: acceleration.z,
   });
 
   console.log("Rotation speed (degrees/s):", event.rotationRate);
 }
 
-window.addEventListener(
-  "devicemotion",
-  handleMotion
-);
+window.addEventListener("devicemotion", handleMotion);
 
 if (startCameraButton !== null) {
   startCameraButton?.addEventListener("click", async () => {
@@ -190,7 +177,7 @@ function changeArrow(event: KeyboardEvent): void {
     "mdi-light--arrow-up",
     "mdi-light--arrow-down",
     "mdi-light--arrow-left",
-    "mdi-light--arrow-right"
+    "mdi-light--arrow-right",
   );
 
   switch (event.key) {
