@@ -15,6 +15,7 @@ const navigationArrow: HTMLButtonElement | null =
 let scene: THREE.Scene;
 let threeCamera: THREE.PerspectiveCamera;
 let renderer: THREE.WebGLRenderer;
+// @ts-ignore
 let arrow: THREE.ArrowHelper;
 
 async function startCamera(): Promise<void> {
@@ -117,7 +118,9 @@ function initThree(): void {
 function animate(): void {
   requestAnimationFrame(animate);
 
-  navigationArrow.style.display = "block";
+  if (navigationArrow) {
+    navigationArrow.style.display = "block";
+  }
 
   renderer.render(scene, threeCamera);
 }
