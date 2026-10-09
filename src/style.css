@@ -1,0 +1,20 @@
+@import "tailwindcss";
+@plugin "@iconify/tailwind4" {
+  prefixes: mdi-light, vscode-icons;
+  scale: 1.2;
+}
+
+#navigationArrow {
+  animation: arrowMove 1.2s ease-in-out infinite;
+}
+
+@keyframes arrowMove {
+  0%,
+  100% {
+    transform: translate(-50%, 0);
+  }
+
+  50% {
+    transform: translate(-50%, -20px);
+  }
+}

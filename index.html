@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    name="viewport"
+  >
+
+  <title>WebXR Navigation</title>
+  <link href="/src/style.css" rel="stylesheet">
+</head>
+
+<body class="m-0 bg-black overflow-hidden">
+
+<!-- Full-screen camera container -->
+<main
+  class="relative w-screen h-dvh overflow-hidden bg-black"
+  id="cameraContainer"
+>
+
+  <!-- Camera -->
+  <video
+    autoplay
+    class="absolute inset-0 w-full h-full object-cover"
+    id="camera"
+    muted
+    playsinline>
+  </video>
+
+  <!-- Three.js overlay -->
+  <div
+    class="absolute inset-0 z-10 w-full h-full pointer-events-none"
+    id="threeContainer">
+  </div>
+
+
+  <!-- Header -->
+  <header
+    class="
+        absolute
+        top-0 left-0 right-0
+        z-20
+        px-5
+        pt-[max(1rem,env(safe-area-inset-top))]
+        pointer-events-none
+      "
+  >
+    <h1
+      class="
+          text-white
+          text-xl
+          font-semibold
+          drop-shadow-lg
+        "
+    >
+      WebXR Navigation
+    </h1>
+  </header>
+
+
+  <!-- Navigation arrow -->
+  <span
+    class="
+        iconify
+        mdi-light--arrow-up
+
+        absolute
+        z-20
+        left-1/2
+        bottom-32
+
+        -translate-x-1/2
+
+        text-8xl
+        text-blue-400
+        drop-shadow-xl
+
+        hidden
+        pointer-events-none
+      "
+    id="navigationArrow">
+    </span>
+
+
+  <!-- Start camera button -->
+  <button
+    class="
+        absolute
+        z-30
+
+        left-1/2
+        -translate-x-1/2
+
+        bottom-[max(2rem,env(safe-area-inset-bottom))]
+
+        flex
+        items-center
+        gap-2
+
+        whitespace-nowrap
+
+        bg-blue-500
+        active:bg-blue-600
+
+        text-white
+        text-lg
+        font-medium
+
+        px-6
+        py-3
+
+        rounded-full
+        shadow-xl
+
+        touch-manipulation
+      "
+    id="startCamera"
+    type="button"
+  >
+
+      <span
+        class="iconify mdi-light--camcorder text-3xl">
+      </span>
+
+    <span>Start Camera</span>
+
+  </button>
+
+</main>
+
+<script src="/src/main.ts" type="module"></script>
+
+</body>
+</html>
