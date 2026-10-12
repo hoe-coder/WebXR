@@ -1,0 +1,125 @@
+{
+  "comment": "PLATZHALTER: Beispiel-Gebäudeplan für 3. Stock - Koordinaten müssen angepasst werden!",
+  "floor": "3rd Floor",
+  "origin": "entrance_3rd",
+  "nodes": [
+    {
+      "id": "entrance_3rd",
+      "name": "Eingang 3. Stock",
+      "x": 0,
+      "y": 0,
+      "room": false,
+      "description": "Haupteingang 3. Stock (Nullpunkt)"
+    },
+    {
+      "id": "corridor_1",
+      "name": "Gang Punkt 1",
+      "x": 5,
+      "y": 0,
+      "room": false,
+      "description": "Erster Gangpunkt nach Eingang"
+    },
+    {
+      "id": "corridor_2",
+      "name": "Gang Punkt 2",
+      "x": 10,
+      "y": 0,
+      "room": false,
+      "description": "Zweiter Gangpunkt"
+    },
+    {
+      "id": "corridor_3",
+      "name": "Gang Kreuzung",
+      "x": 15,
+      "y": 0,
+      "room": false,
+      "description": "Kreuzung im Gang"
+    },
+    {
+      "id": "room_301",
+      "name": "Raum 301",
+      "x": 10,
+      "y": 5,
+      "room": true,
+      "description": "Klassenraum 301"
+    },
+    {
+      "id": "room_302",
+      "name": "Raum 302",
+      "x": 15,
+      "y": 5,
+      "room": true,
+      "description": "Klassenraum 302"
+    },
+    {
+      "id": "room_303",
+      "name": "Raum 303",
+      "x": 15,
+      "y": -5,
+      "room": true,
+      "description": "Labor 303"
+    },
+    {
+      "id": "corridor_4",
+      "name": "Gang Punkt 4",
+      "x": 20,
+      "y": 0,
+      "room": false,
+      "description": "Gang nach Kreuzung"
+    },
+    {
+      "id": "room_304",
+      "name": "Raum 304",
+      "x": 25,
+      "y": 0,
+      "room": true,
+      "description": "Computerraum 304"
+    },
+    {
+      "id": "room_305",
+      "name": "Raum 305",
+      "x": 20,
+      "y": 5,
+      "room": true,
+      "description": "Bibliothek 305"
+    }
+  ],
+  "edges": [
+    {
+      "from": "entrance_3rd",
+      "to": "corridor_1"
+    },
+    {
+      "from": "corridor_1",
+      "to": "corridor_2"
+    },
+    {
+      "from": "corridor_2",
+      "to": "corridor_3"
+    },
+    {
+      "from": "corridor_2",
+      "to": "room_301"
+    },
+    {
+      "from": "corridor_3",
+      "to": "room_302"
+    },
+    {
+      "from": "corridor_3",
+      "to": "room_303"
+    },
+    {
+      "from": "corridor_3",
+      "to": "corridor_4"
+    },
+    {
+      "from": "corridor_4",
+      "to": "room_304"
+    },
+    {
+      "from": "corridor_4",
+      "to": "room_305"
+    }
+  ]
+}

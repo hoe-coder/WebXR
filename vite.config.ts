@@ -1,16 +1,14 @@
 import { defineConfig } from "vite";
 import tailwindcss from "@tailwindcss/vite"
-import fs from "fs"
+import basicSsl from "@vitejs/plugin-basic-ssl"
 
 export default defineConfig({
   plugins: [
     tailwindcss(),
+    basicSsl()
   ],
   server: {
-    host: "0.0.0.0",
-    https: {
-      key: fs.readFileSync("./certs/key.pem"),
-      cert: fs.readFileSync("./certs/cert.pem"),
-    }
+    host: true // Listen on all network interfaces (0.0.0.0)
+    // HTTPS is enabled via basicSsl plugin
   }
 });
