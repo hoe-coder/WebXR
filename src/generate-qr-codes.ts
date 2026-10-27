@@ -3,11 +3,11 @@
  * Run with: npx tsx src/generate-qr-codes.ts
  */
 
-import QRCode from "qrcode";
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
-import type { MapData, QRCodeData } from "./types";
+import QRCode from 'qrcode';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import type { MapData, QRCodeData } from './types';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
