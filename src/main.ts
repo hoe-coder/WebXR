@@ -2,68 +2,71 @@
  * Main application file
  * Integrates all modules and manages UI flow
  */
-
-import { requestSensorPermission, startOrientation, startStepCounter } from './sensors.js';
-import { PositionTracker } from './position.js';
-import { loadMap, findPath, getRooms, getNode, WaypointNavigator } from './routing.js';
-import { startQRScanner, stopQRScanner } from './qr-scanner.js';
-import { AppStateMachine, AppStates } from './app-state.js';
+import {requestSensorPermission, startOrientation, startStepCounter} from './sensors';
+import {PositionTracker} from './position';
+import {loadMap, findPath, getRooms, getNode, WaypointNavigator} from './routing';
+import {startQRScanner, stopQRScanner} from './qr-scanner';
+import {AppStateMachine, AppStates} from './app-state';
+import type {MapData, StopFn} from './types';
 
 // ============================================================================
 // DOM Elements
 // ============================================================================
 
-const video = document.getElementById('video') as HTMLVideoElement;
-const qrScanner = document.getElementById('qrScanner') as HTMLDivElement;
-const navigationArrow = document.getElementById('navigationArrow') as HTMLElement;
-const arrowContainer = document.getElementById('arrowContainer') as HTMLDivElement;
-const navInfo = document.getElementById('navInfo') as HTMLDivElement;
-const navTarget = document.getElementById('navTarget') as HTMLDivElement;
-const navDistance = document.getElementById('navDistance') as HTMLDivElement;
+/** Typed getElementById that fails fast if the element is missing */
+function getEl<T extends HTMLElement = HTMLElement>(id: string): T {
+  const el = document.getElementById(id);
+  if (!el) {
+    throw new Error(`Element #${id} not found in DOM`);
+  }
+  return el as T;
+}
 
+const video = getEl<HTMLVideoElement>('video');
+const qrScanner = getEl('qrScanner');
+const navigationArrow = getEl('navigationArrow');
+const arrowContainer = getEl('arrowContainer');
+const navInfo = getEl('navInfo');
+const navTarget = getEl('navTarget');
+const navDistance = getEl('navDistance');
 // Screens
-const startScreen = document.getElementById('startScreen') as HTMLDivElement;
-const qrScreen = document.getElementById('qrScreen') as HTMLDivElement;
-const roomSelectScreen = document.getElementById('roomSelectScreen') as HTMLDivElement;
-const destinationScreen = document.getElementById('destinationScreen') as HTMLDivElement;
-
+const startScreen = getEl('startScreen');
+const qrScreen = getEl('qrScreen');
+const roomSelectScreen = getEl('roomSelectScreen');
+const destinationScreen = getEl('destinationScreen');
 // Buttons
-const btnStartSensors = document.getElementById('btnStartSensors') as HTMLButtonElement;
-const btnToggleDebug = document.getElementById('btnToggleDebug') as HTMLButtonElement;
-const btnNewDestination = document.getElementById('btnNewDestination') as HTMLButtonElement;
-const roomList = document.getElementById('roomList') as HTMLDivElement;
-const destinationName = document.getElementById('destinationName') as HTMLParagraphElement;
-
+const btnStartSensors = getEl<HTMLButtonElement>('btnStartSensors');
+const btnToggleDebug = getEl<HTMLButtonElement>('btnToggleDebug');
+const btnNewDestination = getEl<HTMLButtonElement>('btnNewDestination');
+const roomList = getEl('roomList');
+const destinationName = getEl('destinationName');
 // Debug
-const debugOverlay = document.getElementById('debugOverlay') as HTMLDivElement;
-const dbgAlpha = document.getElementById('dbg-alpha') as HTMLSpanElement;
-const dbgBeta = document.getElementById('dbg-beta') as HTMLSpanElement;
-const dbgGamma = document.getElementById('dbg-gamma') as HTMLSpanElement;
-const dbgHeading = document.getElementById('dbg-heading') as HTMLSpanElement;
-const dbgSteps = document.getElementById('dbg-steps') as HTMLSpanElement;
-const dbgX = document.getElementById('dbg-x') as HTMLSpanElement;
-const dbgY = document.getElementById('dbg-y') as HTMLSpanElement;
-const dbgWaypoint = document.getElementById('dbg-waypoint') as HTMLSpanElement;
-const dbgDistance = document.getElementById('dbg-distance') as HTMLSpanElement;
+const debugOverlay = getEl('debugOverlay');
+const dbgAlpha = getEl('dbg-alpha');
+const dbgBeta = getEl('dbg-beta');
+const dbgGamma = getEl('dbg-gamma');
+const dbgHeading = getEl('dbg-heading');
+const dbgSteps = getEl('dbg-steps');
+const dbgX = getEl('dbg-x');
+const dbgY = getEl('dbg-y');
+const dbgWaypoint = getEl('dbg-waypoint');
+const dbgDistance = getEl('dbg-distance');
 
 // ============================================================================
 // Application State
 // ============================================================================
-
 const appState = new AppStateMachine();
 const positionTracker = new PositionTracker();
 let waypointNavigator: WaypointNavigator | null = null;
-let mapData: any = null;
+let mapData: MapData | null = null;
 let currentNodeId: string | null = null;
 let destinationNodeId: string | null = null;
-
-let stopOrientationFn: Function | null = null;
-let stopStepCounterFn: Function | null = null;
+let stopOrientationFn: StopFn | null = null;
+let stopStepCounterFn: StopFn | null = null;
 
 // ============================================================================
 // State Management
 // ============================================================================
-
 appState.onChange((newState, oldState) => {
   console.log(`State: ${oldState} -> ${newState}`);
 
@@ -80,40 +83,36 @@ appState.onChange((newState, oldState) => {
     case AppStates.START:
       startScreen.classList.remove('hidden');
       break;
-
     case AppStates.QR_SCAN:
       qrScreen.classList.remove('hidden');
       qrScanner.classList.remove('hidden');
-      startQRScanMode();
+      void startQRScanMode();
       break;
-
     case AppStates.ROOM_SELECT:
       roomSelectScreen.classList.remove('hidden');
       qrScanner.classList.add('hidden');
-      stopQRScanner();
+      void stopQRScanner();
       populateRoomList();
       break;
-
     case AppStates.NAVIGATION:
       arrowContainer.classList.remove('hidden');
       navInfo.classList.remove('hidden');
       break;
-
-    case AppStates.DESTINATION_REACHED:
+    case AppStates.DESTINATION_REACHED: {
       destinationScreen.classList.remove('hidden');
-      const destNode = destinationNodeId ? getNode(mapData, destinationNodeId) : null;
+      const destNode = mapData && destinationNodeId ? getNode(mapData, destinationNodeId) : null;
       if (destNode) {
         destinationName.textContent = destNode.name;
       }
       break;
+    }
   }
 });
 
 // ============================================================================
 // Camera & Sensors
 // ============================================================================
-
-async function startCameraAndSensors() {
+async function startCameraAndSensors(): Promise<void> {
   try {
     // Request sensor permissions (iOS)
     const sensorGranted = await requestSensorPermission();
@@ -124,7 +123,7 @@ async function startCameraAndSensors() {
 
     // Start camera
     const stream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: 'environment' },
+      video: {facingMode: 'environment'},
       audio: false
     });
     video.srcObject = stream;
@@ -157,21 +156,24 @@ async function startCameraAndSensors() {
 
     // Move to QR scan state
     appState.setState(AppStates.QR_SCAN);
-
   } catch (error) {
     console.error('Failed to start camera/sensors:', error);
-    alert('Fehler beim Starten der Kamera oder Sensoren: ' + error);
+    alert('Fehler beim Starten der Kamera oder Sensoren: ' + String(error));
   }
 }
 
 // ============================================================================
 // QR Code Scanning
 // ============================================================================
-
-async function startQRScanMode() {
+async function startQRScanMode(): Promise<void> {
   try {
     await startQRScanner('qrScanner', (data) => {
       console.log('QR scanned:', data);
+
+      if (!mapData) {
+        console.error('Map not loaded yet');
+        return;
+      }
 
       const nodeId = data.node;
       const node = getNode(mapData, nodeId);
@@ -184,7 +186,6 @@ async function startQRScanMode() {
       // Set position to scanned node
       currentNodeId = nodeId;
       positionTracker.setPosition(node.x, node.y);
-
       console.log(`Position set to: ${node.name} (${node.x}, ${node.y})`);
 
       // Move to room selection
@@ -198,13 +199,12 @@ async function startQRScanMode() {
 // ============================================================================
 // Room Selection
 // ============================================================================
-
-function populateRoomList() {
+function populateRoomList(): void {
   if (!mapData) return;
 
   roomList.innerHTML = '';
-
   const rooms = getRooms(mapData);
+
   rooms.forEach((room) => {
     // Don't show current location as destination
     if (room.id === currentNodeId) return;
@@ -218,12 +218,11 @@ function populateRoomList() {
     `;
     button.textContent = room.name;
     button.onclick = () => selectDestination(room.id);
-
     roomList.appendChild(button);
   });
 }
 
-function selectDestination(roomId: string) {
+function selectDestination(roomId: string): void {
   if (!currentNodeId || !mapData) {
     console.error('No current position set');
     return;
@@ -257,15 +256,14 @@ function selectDestination(roomId: string) {
 // ============================================================================
 // Navigation Loop
 // ============================================================================
-
 let navigationLoopId: number | null = null;
 
-function startNavigationLoop() {
+function startNavigationLoop(): void {
   if (navigationLoopId !== null) {
     cancelAnimationFrame(navigationLoopId);
   }
 
-  function loop() {
+  function loop(): void {
     if (!appState.is(AppStates.NAVIGATION) || !waypointNavigator) {
       return;
     }
@@ -309,9 +307,8 @@ function startNavigationLoop() {
 // ============================================================================
 // Event Listeners
 // ============================================================================
-
 btnStartSensors.addEventListener('click', () => {
-  startCameraAndSensors();
+  void startCameraAndSensors();
 });
 
 btnToggleDebug.addEventListener('click', () => {
@@ -324,8 +321,17 @@ btnNewDestination.addEventListener('click', () => {
 });
 
 // ============================================================================
+// Cleanup helpers (exposed for future use, e.g. when leaving the page)
+// ============================================================================
+export function stopSensors(): void {
+  stopOrientationFn?.();
+  stopStepCounterFn?.();
+  stopOrientationFn = null;
+  stopStepCounterFn = null;
+}
+
+// ============================================================================
 // Initialize
 // ============================================================================
-
 console.log('Indoor Navigation App loaded');
 console.log('Click "Sensoren aktivieren" to start');

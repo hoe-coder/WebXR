@@ -1,4 +1,5 @@
 @import "tailwindcss";
+
 @plugin "@iconify/tailwind4" {
   prefixes: mdi-light, vscode-icons;
   scale: 1.2;
