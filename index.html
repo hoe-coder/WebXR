@@ -1,92 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8">
-
   <meta
     content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     name="viewport"
   >
-
-  <title>WebXR Navigation</title>
+  <title>Indoor Navigation - 3. Stock</title>
   <link href="/src/style.css" rel="stylesheet">
 </head>
 
 <body class="m-0 bg-black overflow-hidden">
 
-<!-- Full-screen camera container -->
-<main
-  class="relative w-screen h-dvh overflow-hidden bg-black"
-  id="cameraContainer"
->
+<!-- Full-screen container -->
+<main class="relative w-screen h-dvh overflow-hidden bg-black" id="app">
 
-  <!-- Camera -->
+  <!-- Camera/Scanner Video -->
   <video
     autoplay
     class="absolute inset-0 w-full h-full object-cover"
-    id="camera"
+    id="video"
     muted
     playsinline>
   </video>
 
-  <!-- Three.js overlay -->
+  <!-- QR Scanner Container (hidden by default) -->
   <div
-    class="absolute inset-0 z-10 w-full h-full pointer-events-none"
-    id="threeContainer">
+    class="absolute inset-0 w-full h-full z-10 hidden"
+    id="qrScanner">
   </div>
-
 
   <!-- Header -->
   <header
     class="
-        absolute
-        top-0 left-0 right-0
-        z-20
-        px-5
-        pt-[max(1rem,env(safe-area-inset-top))]
-        pointer-events-none
-      "
+      absolute top-0 left-0 right-0 z-20
+      px-5 pt-[max(1rem,env(safe-area-inset-top))]
+      pointer-events-none
+    "
   >
-    <h1
-      class="
-          text-white
-          text-xl
-          font-semibold
-          drop-shadow-lg
-        "
-    >
-      WebXR Navigation
+    <h1 class="text-white text-xl font-semibold drop-shadow-lg">
+      Indoor Navigation
     </h1>
   </header>
 
-
-  <!-- Navigation arrow -->
-  <span
+  <!-- Navigation Arrow -->
+  <div
     class="
-        iconify
-        mdi-light--arrow-up
-
-        absolute
-        z-20
-        left-1/2
-        bottom-32
-
-        -translate-x-1/2
-
-        text-8xl
-        text-blue-400
-        drop-shadow-xl
-
-        hidden
-        pointer-events-none
+      absolute z-20 left-1/2 top-1/2
+      -translate-x-1/2 -translate-y-16
+      hidden pointer-events-none
+    "
+    id="arrowContainer"
+  >
+    <span
+      class="
+        iconify mdi-light--arrow-up
+        text-9xl text-blue-400 drop-shadow-2xl
       "
-    id="navigationArrow">
+      id="navigationArrow"
+      style="filter: drop-shadow(0 0 20px rgba(96, 165, 250, 0.8));">
     </span>
+  </div>
 
-
-  <!-- Start camera button -->
-  <button
+  <!-- Navigation Info -->
+  <div
     class="
+      absolute z-20 left-1/2 bottom-32
+      -translate-x-1/2
+      bg-black/60 backdrop-blur-sm
+      text-white text-center
+      px-6 py-3 rounded-2xl
+      hidden
+    "
+    id="navInfo"
+  >
+    <div class="text-sm opacity-80" id="navTarget">Ziel: -</div>
+    <div class="text-2xl font-bold" id="navDistance">- m</div>
+  </div>
+
+  <!-- Start Screen -->
+  <div
+    class="
+      absolute inset-0 z-30
+      flex flex-col items-center justify-center
+      bg-gradient-to-b from-blue-900 to-black
+      p-6
+    "
+    id="startScreen"
+  >
+    <div class="text-center mb-8">
+      <span class="iconify mdi-light--navigation text-8xl text-blue-400 mb-4 block"></span>
+      <h2 class="text-white text-3xl font-bold mb-2">Indoor Navigation</h2>
+      <p class="text-blue-200 text-lg">3. Stock Navigation</p>
+    </div>
+    <button
+      class="
         absolute
         z-30
 
@@ -102,7 +110,7 @@
         whitespace-nowrap
 
         bg-blue-500
-        active:bg-blue-600
+        hover:bg-blue-600
 
         text-white
         text-lg
@@ -116,16 +124,112 @@
 
         touch-manipulation
       "
-    id="startCamera"
+      id="btnStartSensors"
+      type="button"
+    >
+      <span class="iconify mdi-light--cellphone text-3xl"></span>
+      <span>Sensoren aktivieren</span>
+    </button>
+  </div>
+
+  <!-- QR Scan Screen -->
+  <div
+    class="
+      absolute inset-0 z-30
+      flex flex-col items-center justify-center
+      bg-black/80
+      p-6 hidden
+    "
+    id="qrScreen"
+  >
+    <div class="text-center mb-6">
+      <span class="iconify mdi-light--qrcode-scan text-8xl text-blue-400 mb-4 block"></span>
+      <h2 class="text-white text-2xl font-bold mb-2">QR-Code scannen</h2>
+      <p class="text-blue-200">Scanne einen QR-Code am Eingang</p>
+    </div>
+  </div>
+
+  <!-- Room Selection Screen -->
+  <div
+    class="
+      absolute inset-0 z-30
+      flex flex-col
+      bg-gradient-to-b from-blue-900 to-black
+      p-6 pt-20 hidden
+    "
+    id="roomSelectScreen"
+  >
+    <h2 class="text-white text-2xl font-bold mb-4">Zielraum wählen</h2>
+    <div class="flex-1 overflow-y-auto space-y-2" id="roomList">
+      <!-- Room buttons will be inserted here -->
+    </div>
+  </div>
+
+  <!-- Destination Reached Screen -->
+  <div
+    class="
+      absolute inset-0 z-30
+      flex flex-col items-center justify-center
+      bg-black/90 backdrop-blur-md
+      p-6 hidden
+    "
+    id="destinationScreen"
+  >
+    <span class="iconify mdi-light--check-circle text-8xl text-green-400 mb-4 block animate-bounce"></span>
+    <h2 class="text-white text-3xl font-bold mb-2">Ziel erreicht!</h2>
+    <p class="text-green-200 text-lg mb-8" id="destinationName">-</p>
+    <button
+      class="
+        bg-blue-500 active:bg-blue-600
+        text-white text-lg font-medium
+        px-8 py-4 rounded-full shadow-xl
+        touch-manipulation
+      "
+      id="btnNewDestination"
+      type="button"
+    >
+      Neues Ziel wählen
+    </button>
+  </div>
+
+  <!-- Debug Overlay (toggleable) -->
+  <div
+    class="
+      absolute top-16 right-2 z-40
+      bg-black/80 backdrop-blur-sm
+      text-white text-xs font-mono
+      p-3 rounded-lg
+      max-w-xs
+      hidden
+    "
+    id="debugOverlay"
+  >
+    <div class="font-bold mb-2 text-yellow-400">Debug Info</div>
+    <div>α: <span id="dbg-alpha">-</span>°</div>
+    <div>β: <span id="dbg-beta">-</span>°</div>
+    <div>γ: <span id="dbg-gamma">-</span>°</div>
+    <div class="font-bold mt-1">Heading: <span id="dbg-heading">-</span>°</div>
+    <div class="mt-1">Steps: <span id="dbg-steps">0</span></div>
+    <div class="font-bold mt-1">Position:</div>
+    <div>X: <span id="dbg-x">0.0</span> m</div>
+    <div>Y: <span id="dbg-y">0.0</span> m</div>
+    <div class="mt-1">Waypoint: <span id="dbg-waypoint">-</span></div>
+    <div>Distance: <span id="dbg-distance">-</span> m</div>
+  </div>
+
+  <!-- Debug Toggle Button -->
+  <button
+    class="
+      absolute top-16 left-2 z-40
+      bg-yellow-500/80 active:bg-yellow-600
+      text-black text-xs font-bold
+      px-3 py-2 rounded-lg
+      touch-manipulation
+    "
+    id="btnToggleDebug"
     type="button"
   >
-
-      <span
-        class="iconify mdi-light--camcorder text-3xl">
-      </span>
-
-    <span>Start Camera</span>
-
+    DEBUG
   </button>
 
 </main>
