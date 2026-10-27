@@ -10,7 +10,7 @@ import {
   type QrcodeErrorCallback,
   type QrcodeSuccessCallback
 } from 'html5-qrcode';
-import type { QRCodeData } from './types';
+import type {QRCodeData} from './types';
 
 export type QRScanCallback = (data: QRCodeData) => void;
 
@@ -45,7 +45,7 @@ export async function startQRScanner(
 
   const config: Html5QrcodeCameraScanConfig = {
     fps: 10,
-    qrbox: { width: 250, height: 250 },
+    qrbox: {width: 250, height: 250},
     aspectRatio: 1.0
   };
 
@@ -72,7 +72,7 @@ export async function startQRScanner(
 
   try {
     await instance.start(
-      { facingMode: 'environment' },
+      {facingMode: 'environment'},
       config,
       onScanSuccess,
       onScanFailure

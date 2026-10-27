@@ -3,7 +3,7 @@
  * Handles iOS permission requests and cross-platform sensor access
  */
 
-import type { StopFn } from './types';
+import type {StopFn} from './types';
 
 export interface OrientationData {
   alpha: number | null;

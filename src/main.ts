@@ -2,12 +2,12 @@
  * Main application file
  * Integrates all modules and manages UI flow
  */
-import { requestSensorPermission, startOrientation, startStepCounter } from './sensors';
-import { PositionTracker } from './position';
-import { loadMap, findPath, getRooms, getNode, WaypointNavigator } from './routing';
-import { startQRScanner, stopQRScanner } from './qr-scanner';
-import { AppStateMachine, AppStates } from './app-state';
-import type { MapData, StopFn } from './types';
+import {requestSensorPermission, startOrientation, startStepCounter} from './sensors';
+import {PositionTracker} from './position';
+import {loadMap, findPath, getRooms, getNode, WaypointNavigator} from './routing';
+import {startQRScanner, stopQRScanner} from './qr-scanner';
+import {AppStateMachine, AppStates} from './app-state';
+import type {MapData, StopFn} from './types';
 
 // ============================================================================
 // DOM Elements
@@ -123,7 +123,7 @@ async function startCameraAndSensors(): Promise<void> {
 
     // Start camera
     const stream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: 'environment' },
+      video: {facingMode: 'environment'},
       audio: false
     });
     video.srcObject = stream;

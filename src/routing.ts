@@ -2,7 +2,7 @@
  * Routing module with Dijkstra algorithm and waypoint navigation
  */
 
-import type { MapData, MapNode } from './types';
+import type {MapData, MapNode} from './types';
 
 interface Neighbor {
   id: string;
@@ -45,8 +45,8 @@ export function findPath(map: MapData, startId: string, endId: string): MapNode[
       const distance = calculateDistance(fromNode, toNode);
 
       // Undirected graph (bidirectional edges)
-      graph.get(edge.from)?.push({ id: edge.to, distance });
-      graph.get(edge.to)?.push({ id: edge.from, distance });
+      graph.get(edge.from)?.push({id: edge.to, distance});
+      graph.get(edge.to)?.push({id: edge.from, distance});
     }
   });
 

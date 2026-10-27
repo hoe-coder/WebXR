@@ -6,8 +6,8 @@
 import QRCode from 'qrcode';
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
-import type { MapData, QRCodeData } from './types';
+import {fileURLToPath} from 'url';
+import type {MapData, QRCodeData} from './types';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,14 +20,14 @@ const mapData: MapData = JSON.parse(
 // Create output directory
 const outputDir = path.join(__dirname, '../qr-codes');
 if (!fs.existsSync(outputDir)) {
-  fs.mkdirSync(outputDir, { recursive: true });
+  fs.mkdirSync(outputDir, {recursive: true});
 }
 
 // Generate QR codes for all nodes
 console.log('Generating QR codes...');
 
 const promises = mapData.nodes.map(async (node): Promise<void> => {
-  const payload: QRCodeData = { node: node.id };
+  const payload: QRCodeData = {node: node.id};
   const qrData = JSON.stringify(payload);
   const filename = `${node.id}.png`;
   const filepath = path.join(outputDir, filename);
